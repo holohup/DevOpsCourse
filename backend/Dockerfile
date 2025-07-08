@@ -5,7 +5,7 @@ RUN apk add --no-cache tini
 
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
+COPY package* .
 
 # 4. Install *production-only* dependencies
 ENV NODE_ENV=production
