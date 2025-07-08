@@ -1,0 +1,18 @@
+services:
+  backend:
+    container_name: backend
+    image: holohup/backend:latest
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./notes.json
+        target: /app/notes.json
+
+  frontend:
+    container_name: frontend
+    image: holohup/frontend:latest
+    ports:
+      - "80:8080"
+    depends_on:
+      - backend
+    restart: unless-stopped
