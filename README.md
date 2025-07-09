@@ -6,6 +6,14 @@ Three decisions were made:
 2) Both frontend and backend Dockerfiles introduce an unprivileged user to run - it adds some Dockerfile code overhead to fix permissions, but is safer
 3) Since it is a CRS, the nginx is inside the frontend container - no need to introduce the 3rd service, everything’s static
 
+
+
+## 📸 Screenshots
+
+| Terminal | Site |
+|:--------:|:-------:|
+| ![Terminal Screenshot](./img/1.png) | ![App Screenshot](./img/2.png) |
+
 # DevOps Course project
 
 This is a playground project consisting of a frontend (React) and a backend (Node.js/Express) apps for deployment training.
@@ -37,3 +45,4 @@ cd backend
 npm install
 node index.js
 ```
+---
