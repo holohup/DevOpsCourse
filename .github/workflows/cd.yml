@@ -1,11 +1,12 @@
 name: Deploy, Test and Report
 
-on: [push]
+on:
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     steps:
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@v1
@@ -14,9 +15,9 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            docker-compose --project-directory dev stop backend frontend
-            docker pull ${{ env.BACKEND_TAG }} && docker pull ${{ env.FRONTEND_TAG }}
-            docker-compose --project-directory dev up -d
+            docker compose --project-directory dev stop backend frontend
+            docker pull ${{ vars.BACKEND_TAG }} && docker pull ${{ vars.FRONTEND_TAG }}
+            docker compose --project-directory dev up -d
 
 #   smoke_tests:
 #     runs-on: ubuntu-latest
