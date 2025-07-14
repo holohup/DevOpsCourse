@@ -26,7 +26,6 @@ jobs:
       - name: build and push frontend to DockerHub
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: frontend/Dockerfile
+          context: frontend
           push: true
           tags: ${{ vars.FRONTEND_TAG }}
