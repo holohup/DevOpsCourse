@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: check statuscode
         run: |
-          EXPECTED_200=$(curl --write-out '%{http_code}' -L --silent --output /dev/null https://${{ secrets.SSH_HOST }}/)
+          EXPECTED_200=$(curl --write-out '%{http_code}' -L --silent -k --output /dev/null https://${{ secrets.SSH_HOST }}/)
           if [ $EXPECTED_200 != "200" ]; then
             echo 'Something is not working'
             exit 1
