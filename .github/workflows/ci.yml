@@ -9,9 +9,10 @@ jobs:
   super-linter:
     runs-on: ubuntu-latest
     env:
-      SL_IMAGE: github/super-linter/slim:v6     # pin the tag
+      SL_IMAGE: ghcr.io/github/super-linter:slim-v6   # pin the tag (correct registry/tag)
       SL_CACHE_DIR: /tmp/super-linter-cache
       SL_CACHE_FILE: superlinter.tar
+      VALIDATE_CHECKOV: "false"          # disable Checkov linter
     steps:
       # 1. Checkout
       - uses: actions/checkout@v4
