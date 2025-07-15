@@ -12,13 +12,39 @@ jobs:
     steps:
       - name: check out repo
         uses: actions/checkout@v4
+
+      # ---------- Lint stage ----------
+      - name: set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: run eslint (backend)
+        working-directory: backend
+        run: npm run lint
+
+      - name: install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: run eslint (frontend)
+        working-directory: frontend
+        run: npm run lint
+
+      # ---------- Build & push ----------
       - name: log in to docker
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: set up Docker Buildx
+
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
       - name: build and push backend to DockerHub
         uses: docker/build-push-action@v6
         with:
@@ -27,6 +53,7 @@ jobs:
           tags: ${{ vars.BACKEND_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
       - name: build and push frontend to DockerHub
         uses: docker/build-push-action@v6
         with:
@@ -34,4 +61,4 @@ jobs:
           push: true
           tags: ${{ vars.FRONTEND_TAG }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max 
+          cache-to: type=gha,mode=max

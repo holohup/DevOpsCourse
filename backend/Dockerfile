@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:22-alpine
 
 RUN addgroup -S app && adduser -S -G app app
 RUN apk add --no-cache tini
