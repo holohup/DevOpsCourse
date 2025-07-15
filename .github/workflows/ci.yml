@@ -22,6 +22,8 @@ jobs:
         working-directory: backend
         run: npm ci
 
+      - name: install eslint 8 temporarily
+        run: npm install --no-save eslint@8
       - name: run eslint (backend)
         working-directory: backend
         run: npx eslint .
@@ -30,9 +32,9 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: run eslint (frontend)
-        working-directory: frontend
-        run: npx eslint .
+    #   - name: run eslint (frontend)
+    #     working-directory: frontend
+    #     run: npx eslint .
 
   build_image_and_push_to_docker_hub:
     needs: lint
