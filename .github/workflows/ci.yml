@@ -9,7 +9,7 @@ jobs:
   super-linter:
     runs-on: ubuntu-latest
     env:
-      SL_IMAGE: ghcr.io/github/super-linter/slim:v6   # correct repository and tag
+      SL_IMAGE: ghcr.io/super-linter/super-linter:slim-v7.4.0   # latest v7 image
       SL_CACHE_DIR: /tmp/super-linter-cache
       SL_CACHE_FILE: superlinter.tar
       VALIDATE_CHECKOV: "false"          # disable Checkov linter
@@ -17,6 +17,13 @@ jobs:
       # 1. Checkout
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       # 2. Try to restore the image tarball
       - name: Restore cached Super-Linter image
