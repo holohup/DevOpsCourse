@@ -6,14 +6,13 @@ on:
       - main
 
 jobs:
-  build_image_and_push_to_docker_hub:
-    name: Build and Push Docker image to Docker Hub
+  lint:
+    name: Lint JavaScript code
     runs-on: ubuntu-latest
     steps:
       - name: check out repo
         uses: actions/checkout@v4
 
-      # ---------- Lint stage ----------
       - name: set up Node
         uses: actions/setup-node@v4
         with:
@@ -25,7 +24,7 @@ jobs:
 
       - name: run eslint (backend)
         working-directory: backend
-        run: npm run lint
+        run: npx eslint .
 
       - name: install frontend dependencies
         working-directory: frontend
@@ -33,7 +32,15 @@ jobs:
 
       - name: run eslint (frontend)
         working-directory: frontend
-        run: npm run lint
+        run: npx eslint .
+
+  build_image_and_push_to_docker_hub:
+    needs: lint
+    name: Build and Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out repo
+        uses: actions/checkout@v4
 
       # ---------- Build & push ----------
       - name: log in to docker
