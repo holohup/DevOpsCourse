@@ -6,38 +6,21 @@ on:
       - main
 
 jobs:
-  lint:
-    name: Lint JavaScript code
+  super-linter:
     runs-on: ubuntu-latest
     steps:
-      - name: check out repo
-        uses: actions/checkout@v4
-
-      - name: set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: install backend dependencies
-        working-directory: backend
-        run: npm ci
-
-      - name: install eslint 8 temporarily
-        run: npm install --no-save eslint@8
-      - name: run eslint (backend)
-        working-directory: backend
-        run: npx eslint .
-
-      - name: install frontend dependencies
-        working-directory: frontend
-        run: npm ci
-
-    #   - name: run eslint (frontend)
-    #     working-directory: frontend
-    #     run: npx eslint .
+      - uses: actions/checkout@v4
+      - name: Code quality checks
+        uses: github/super-linter/slim@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: main
+          # Optional: only run ESLint to speed things up
+          VALIDATE_ALL_CODEBASE: false
+          JAVASCRIPT_ES_LINTER_RULES_PATH: ""
 
   build_image_and_push_to_docker_hub:
-    needs: lint
+    needs: super-linter
     name: Build and Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
