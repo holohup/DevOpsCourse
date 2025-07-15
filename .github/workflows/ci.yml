@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # fetch the full history so super‑linter can diff against main
+          fetch-depth: 0
       - name: Code quality checks
         uses: github/super-linter/slim@v6
         env:
