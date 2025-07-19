@@ -1,3 +1,19 @@
+## My implementation of the 2nd homework
+
+There are separate CI and CD actions, and a third full_flow action to wrap them all.
+
+### CI
+- Ignores pushes to main, since noone should push to main
+- On other pushes, it builds the image and pushes it to Dockerhub
+- Around 5% is cached using github cache (and Docker BuildX)
+
+### CD
+
+- Deploys to the server
+- Does a smoke test
+- Sends a telegram notification
+
+
 ## My implementation of the 1st homework
 
 Three decisions were made:
